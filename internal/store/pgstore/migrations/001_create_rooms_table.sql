@@ -1,6 +1,11 @@
 CREATE TABLE IF NOT EXISTS rooms (
-    "id"    uuid PRIMARY KEY NOT NULL DEFAULT gen_random_uuid(),
-    "theme" VARCHAR(255)     NOT NULL
+    "id"        uuid PRIMARY KEY NOT NULL DEFAULT gen_random_uuid(),
+    "room_id"   uuid             NOT NULL, 
+    "message"   VARCHAR(255)     NOT NULL,
+    "reaction"  BIGINT           NOT NULL DEFAULT 0,
+    "answered"  BOOLEAN          NOT NULL DEFAULT false,
+
+    FOREIGN KEY (room_id) REFERENCES rooms(id)
 );
 
 ---- create above / drop below ----
