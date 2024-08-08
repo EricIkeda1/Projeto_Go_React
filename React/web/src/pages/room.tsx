@@ -1,9 +1,24 @@
+import { toast } from 'sonner';
 import { useParams } from 'react-router-dom';
-import { ArrowUp, Share2, ArrowRight } from 'lucide-react';
+import { Share2, ArrowRight } from 'lucide-react';
 import amaLogo from '../assets/ama-logo.svg';
+import { Message } from '../components/message';
+
 
 export function Room() {
     const { roomId } = useParams();
+
+    function handleShareRoom() {
+        const url = window.location.href.toString()
+
+        if (navigator.share != undefined && navigator.canShare()){
+            navigator.share({ url })
+        } else {
+             navigator.clipboard.writeText(url)
+
+             toast.info('The room URL was copied to your clipboard!')
+        }
+    }
 
     return (
         <div className="mx-auto max-w-[640px] flex flex-col gap-6 py-10 px-4">
@@ -15,11 +30,12 @@ export function Room() {
                 </span>
 
                 <button 
-                    type="button"  // Alterado para "button" já que não é um formulário
-                    className="bg-zinc-800 text-zinc-300 px-3 py-1.5 gap-1.5 flex items-center rounded-lg font-medium text-sm transition-colors hover:bg-zinc-700"
+                    type="button"
+                    onClick={handleShareRoom}
+                    className="ml-auto bg-zinc-800 text-zinc-300 px-3 py-1.5 gap-1.5 flex items-center rounded-lg font-medium text-sm transition-colors hover:bg-zinc-700"
                 >
                     Compartilhar
-                    <Share2 className="h-4 w-4 ml-2" />
+                    <Share2 className="size-4" />
                 </button>
             </div>
 
@@ -32,7 +48,7 @@ export function Room() {
                     type="text"
                     name="theme"
                     placeholder="Qual a sua pergunta?"
-                    autoComplete="off"  // Remover sugestões ao digitar
+                    autoComplete="off"
                     className="flex-1 text-sm bg-transparent mx-2 outline-none placeholder:text-zinc-500"
                 />
                 
@@ -41,24 +57,16 @@ export function Room() {
                     className="bg-orange-400 text-orange-950 px-3 py-1.5 gap-1.5 flex items-center rounded-lg font-medium text-sm transition-colors hover:bg-orange-500"
                 >
                     Criar Pergunta
-                    <ArrowRight className="h-4 w-4 ml-2" />
+                    <ArrowRight className="size-4" />
                 </button>
             </form>
 
             <ol className="list-decimal list-inside px-3 space-y-8">
-                <li className="ml-4 leading-relaxed text-zinc-100">
-                    O que é GoLang e quais são suas principais vantagens em comparação com outras linguagens de programação como Python, Java ou C++?
-                    
-                    <div className="flex items-center mt-3">
-                        <button type="button" className="flex items-center gap-2 text-orange-400 text-sm font-medium">
-                            <ArrowUp className="h-4 w-4 mr-2" />
-                            Curtir Pergunta (123)
-                        </button>
-                    </div>
-                </li>
-                <li className="ml-4 leading-relaxed text-zinc-100">
-                    O que é GoLang e quais são suas principais vantagens em comparação com outras linguagens de programação como Python, Java ou C++?
-                </li>
+            <Message text="Como funcionam as goroutines em GoLang e por que elas são importantes para a concorrência e paralelismo?" amountOfReactions={10} answered/>
+            <Message text="Quais são as melhores práticas para organizar o código em um projeto GoLang, incluindo pacotes, módulos e a estrutura de diretórios?" amountOfReactions={80}/>
+            <Message text="O que é GoLang e quais são suas principais vantagens em comparação com outras linguagens de programação como Python, Java ou C++?" amountOfReactions={550}/>
+            <Message text="Como funciona o gerenciamento de memória em GoLang, incluindo a coleta de lixo (garbage collection)? Quais são as implicações de desempenho e como otimizar o uso de memória em programas Go? Quais são as diferenças entre alocação na stack e no heap, e como essas diferenças afetam a eficiência do programa?" amountOfReactions={2500}/>
+
             </ol>
         </div>
     );
