@@ -1,5 +1,5 @@
 # Projeto_Go_React
-> Este é um projeto sendo feito apartir das aulas do Rocketseat!
+> Este é um projeto sendo feito apartir das trilhas de aulas do Rocketseat!
 > 
 > Para fazer a instalação do node: npm install -f
 >
